@@ -1,17 +1,45 @@
-const sequelize = require("../database")
+'use strict';
 
-const { DataTypes } = require("sequelize")
+const {
+  Model
+} = require('sequelize');
 
-const Comment = sequelize.define("Comment", {
+module.exports = (sequelize, DataTypes) => {
+
+  class Comment extends Model {
+
+    static associate(models) {
+
+      Comment.belongsTo(models.Post, {
+        foreignKey: "postId",
+        as: "post"
+      })
+
+    }
+
+  }
+
+  Comment.init({
+
     text: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
 
     visible: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-    }
-})
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
 
-module.exports = Comment
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
+
+  }, {
+    sequelize,
+    modelName: 'Comment',
+  });
+
+  return Comment;
+};

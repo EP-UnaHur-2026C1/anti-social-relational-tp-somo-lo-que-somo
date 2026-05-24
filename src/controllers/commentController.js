@@ -1,18 +1,32 @@
-const Comment = require("../db/models/comment")
+const { Comment, Post } = require("../db/models")
 
 const getComments = async (req, res) => {
 
-    const comments = await Comment.findAll()
+    const comments = await Comment.findAll({
+    include: {
+        model: Post,
+        as: "post"
+    }
+    })
 
     res.json(comments)
 }
 
 const createComment = async (req, res) => {
 
-    const { text } = req.body
+    const { text, postId } = req.body
+
+    const post = await Post.findByPk(postId)
+
+    if (!post) {
+        return res.status(404).json({
+            message: "Post no encontrado"
+        })
+    }
 
     const newComment = await Comment.create({
-        text
+        text,
+        postId
     })
 
     res.json(newComment)
