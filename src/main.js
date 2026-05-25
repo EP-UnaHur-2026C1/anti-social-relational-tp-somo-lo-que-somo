@@ -14,8 +14,8 @@ app.use("/comments", commentRoutes)
 app.use("/posts", postRoutes)
 app.use("/tags", tagRoutes)
 
-sequelize.sync()
 
 app.listen(3000, () => {
+    sequelize.sync({ force: true })
     console.log("Servidor corriendo en puerto 3000")
 })
