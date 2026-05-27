@@ -9,12 +9,14 @@ const {
     deletePost
 } = require("../controllers/postController")
 
+const {validarPostById} = require('../middlewares/post.middleware')
+
 router.get("/", getPosts)
 
 router.post("/", createPost)
 
-router.put("/:id", updatePost)
+router.put("/:id", validarPostById, updatePost)
 
-router.delete("/:id", deletePost)
+router.delete("/:id",validarPostById, deletePost)
 
 module.exports = router
