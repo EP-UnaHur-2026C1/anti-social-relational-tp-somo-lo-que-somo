@@ -9,11 +9,14 @@ const {
     deleteComment
 } = require("../controllers/commentController")
 
+const {schemaValidator} = require('../middlewares/validateSchema')
+const {commentSchema} = require("../schemas/commentSchema")
+
 router.get("/", getComments)
 
-router.post("/", createComment)
+router.post("/", schemaValidator(commentSchema), createComment)
 
-router.put("/:id", updateComment)
+router.put("/:id", schemaValidator(commentSchema), updateComment)
 
 router.delete("/:id", deleteComment)
 

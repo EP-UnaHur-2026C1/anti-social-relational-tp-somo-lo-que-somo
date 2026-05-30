@@ -9,14 +9,16 @@ const {
     deletePost
 } = require("../controllers/postController")
 
-const {validarPostById, validarSchemaPost} = require('../middlewares/post.middleware')
+const {schemaValidator} = require('../middlewares/validateSchema')
+const {postSchema} = require("../schemas/postSchema")
+
 
 router.get("/", getPosts)
 
-router.post("/", validarSchemaPost, createPost)
+router.post("/", schemaValidator(postSchema), createPost)
 
-router.put("/:id", validarPostById, updatePost)
+router.put("/:id", schemaValidator(postSchema), updatePost)
 
-router.delete("/:id",validarPostById, deletePost)
+router.delete("/:id", deletePost)
 
 module.exports = router
