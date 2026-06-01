@@ -1,12 +1,23 @@
-const Joi = require('joi')
+// Importo Joi para validar los datos de entrada
+const Joi = require('joi');
 
+// Defino el esquema de validación para los usuarios
 const userSchema = Joi.object({
-    nickname: Joi.string().min(1).max(20).required().messages({
-        "string.empty": "El user no puede estar vacio",
-        "string.min": "El user debe tener minimo 1 caracter",
-        "string.max": "El user puede tener maximo 20 caracteres"
-    }),
-
+    /*
+    Valido que el nickname sea una cadena de texto entre 3 y 20 caracteres y que sea obligatorio 
+    con mensajes personalizados para cada caso de error
+    */
+    nickname: Joi.string()
+        .min(3)
+        .max(20)
+        .required()
+        .messages({
+            "string.empty": "El nickname no puede estar vacío",
+            "string.min": "El nickname debe tener mínimo 3 caracteres",
+            "string.max": "El nickname puede tener máximo 20 caracteres",
+            "any.required": "El nickname es obligatorio"
+        }),
 });
 
-module.exports = {userSchema};
+// Exporto el esquema para usarlo en los controladores
+module.exports = { userSchema };
