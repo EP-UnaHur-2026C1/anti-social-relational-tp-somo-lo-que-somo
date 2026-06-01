@@ -18,13 +18,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                message: "Usuario no encontrado",
-            });
-        }
+        const user = req.record;
 
         res.status(200).json(user);
     } catch (error) {
@@ -37,20 +31,20 @@ export const getUserById = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try {
-        const { nickName, email } = req.body;
+        const { nickname, email } = req.body;
 
         const existingUser = await User.findOne({
-            where: { nickName },
+            where: { nickname },
         });
 
         if (existingUser) {
             return res.status(400).json({
-                message: "El nickName ya existe",
+                message: "El nickname ya existe",
             });
         }
 
         const newUser = await User.create({
-            nickName,
+            nickname,
             email,
         });
 
@@ -68,19 +62,11 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { nickName, email } = req.body;
-
-        const user = await User.findByPk(id);
-
-        if (!user) {
-            return res.status(404).json({
-                message: "Usuario no encontrado",
-            });
-        }
+        const { nickname, email } = req.body;
+        const user = req.record;
 
         await user.update({
-            nickName,
+            nickname,
             email,
         });
 
@@ -98,16 +84,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        const user = await User.findByPk(id);
-
-        if (!user) {
-            return res.status(404).json({
-                message: "Usuario no encontrado",
-            });
-        }
-
+        const user = req.record;
         await user.destroy();
 
         res.status(200).json({

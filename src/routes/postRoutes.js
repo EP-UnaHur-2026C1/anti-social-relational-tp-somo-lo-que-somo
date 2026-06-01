@@ -1,7 +1,8 @@
+// Importo express y creo un router para definir las rutas de post
 const express = require("express")
-
 const router = express.Router()
 
+// Destrocturo los metodos del controlador para usarlos en las rutas
 const {
     getPosts,
     createPost,
@@ -9,16 +10,15 @@ const {
     deletePost
 } = require("../controllers/postController")
 
-const {schemaValidator} = require('../middlewares/validateSchema')
-const {postSchema} = require("../schemas/postSchema")
+// Importo el middleware de validación de esquemas y el esquema de usuario para validar los datos de entrada
+const { schemaValidator } = require('../middlewares/validateSchema')
+const { postSchema } = require("../schemas/postSchema")
 
-
+// Defino las rutas y les asigno el metodo correspondiente del controlador con validaciones donde corresponda
 router.get("/", getPosts)
-
 router.post("/", schemaValidator(postSchema), createPost)
-
 router.put("/:id", schemaValidator(postSchema), updatePost)
-
 router.delete("/:id", deletePost)
 
+// Exporto el router para usarlo en main.js
 module.exports = router
