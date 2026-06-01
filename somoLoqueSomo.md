@@ -1,153 +1,372 @@
-## Diagrama de la base de datos
+# Estrategias de Persistencia 
+# Trabajo Practico N°1
+
+
+# 📌 Proyecto Anti-Social - Backend
+
+## 🗂️ Diagrama de la base de datos
 
 ![DB Diagram](./assets/der.png)
 
+---
 
-# Configuración inicial del proyecto
+# ⚙️ Tecnologías utilizadas
 
-## Instalación de dependencias
+- JavaScript (ES6)
+- Node.js
+- Express.js
+- Sequelize ORM
+- SQLite3
+- Joi (validación de esquemas)
+- Nodemon (entorno de desarrollo)
+- Sequelize CLI
 
-### Instalación de Express
+---
+
+# ⚙️ Configuración inicial del proyecto
+
+## 📦 Instalación de dependencias
+
+### Express
+
 ```bash
 npm i express
 ```
 
-Framework utilizado para la creación del servidor y manejo de rutas HTTP.
+Framework para la creación del servidor HTTP y manejo de rutas.
 
----
+### Sequelize ORM
 
-### Instalación de Sequelize ORM
 ```bash
 npm i sequelize
 ```
 
-ORM utilizado para trabajar con bases de datos relacionales mediante modelos y consultas desde JavaScript.
+ORM utilizado para modelar la base de datos desde JavaScript.
 
----
+### SQLite
 
-### Instalación de SQLite
 ```bash
 npm i sqlite3
 ```
 
-Motor de base de datos SQLite utilizado para desarrollo y pruebas locales.
+Base de datos liviana utilizada en desarrollo.
 
----
+### Joi (validaciones)
 
-### Instalación de dependencias de desarrollo
+```bash
+npm i joi
+```
+
+Librería para validación de datos de entrada en schemas.
+
+### Dependencias de desarrollo
+
 ```bash
 npm i -D sequelize-cli nodemon
 ```
 
-- `sequelize-cli`: herramienta de línea de comandos para generar configuraciones, modelos, migraciones y seeders.
-- `nodemon`: reinicia automáticamente el servidor al detectar cambios en el proyecto.
+- `sequelize-cli`: manejo de modelos y migraciones
+- `nodemon`: reinicio automático del servidor
 
 ---
 
-# Inicialización de Sequelize
+## 🚀 Inicialización de Sequelize
 
 ```bash
 npx sequelize-cli init
 ```
 
-Este comando genera automáticamente las carpetas:
+Genera:
 
 - `config/`
 - `models/`
 - `migrations/`
 - `seeders/`
 
-Posteriormente, estas carpetas fueron reorganizadas dentro de `src/db/` para mantener una estructura modular y ordenada.
+Reorganizado luego en `src/db/`.
 
 ---
 
-# Estructura del proyecto
+## 🧱 Estructura del proyecto
 
-```plaintext
-ANTI-SOCIAL-RELATIONAL-TP-SOMO-LO-...
+```
+src/
 │
-├── assets/
-├── node_modules/
+├── controllers/
+├── routes/
+├── middlewares/
+├── schemas/
 │
-├── src/
-│   │
-│   ├── controllers/
-│   │
-│   ├── db/
-│   │   ├── config/
-│   │   ├── migrations/
-│   │   ├── models/
-│   │   └── seeders/
-│   │
-│   ├── middlewares/
-│   ├── routes/
-│   ├── schemas/
-│   │
-│   └── main.js
+├── db/
+│   ├── config/
+│   ├── models/
+│   ├── migrations/
+│   ├── seeders/
 │
-├── .gitignore
-├── package-lock.json
-├── package.json
-└── README.md
+└── main.js
 ```
 
 ---
 
-# Descripción de carpetas
+## 🧠 Modelado de la base de datos
 
-## `assets/`
-Contiene archivos estáticos del proyecto como imágenes, íconos o recursos visuales.
+### 👤 User
+
+- `id`
+- `nickname` (UNIQUE)
+
+**Relaciones:**
+- 1 User → N Posts
+- 1 User → N Comments
+
+### 📝 Post
+
+- `id`
+- `description`
+- `userId`
+
+**Relaciones:**
+- User → Post (1:N)
+- Post → Comments (1:N)
+- Post → Images (1:N)
+- Post ↔ Tags (N:M)
+
+### 💬 Comment
+
+- `id`
+- `content`
+- `userId`
+- `postId`
+
+**Relaciones:**
+- pertenece a User
+- pertenece a Post
+
+### 🖼️ PostImage
+
+- `id`
+- `imageUrl`
+- `postId`
+
+**Relación:**
+- pertenece a Post
+
+### 🏷️ Tag
+
+- `id`
+- `name` (UNIQUE)
+
+**Relación:**
+- N:M con Post
+
+### 🔗 PostTags
+
+- `postId`
+- `tagId`
+
+Tabla intermedia N:M.
 
 ---
 
-## `src/controllers/`
-Contiene la lógica de control de las peticiones y respuestas HTTP.
+## 🔄 Relaciones del sistema
+
+- User 1 → N Post
+- User 1 → N Comment
+- Post 1 → N Comment
+- Post 1 → N PostImage
+- Post N ↔ N Tag
 
 ---
 
-## `src/db/`
-Carpeta principal relacionada con la base de datos.
+## 🧩 Arquitectura del backend
 
-### `config/`
-Configuración de conexión de Sequelize.
+### Controllers
 
-### `migrations/`
-Archivos encargados de versionar cambios en la estructura de la base de datos.
+- CRUD completo
+- lógica de negocio
+- manejo de respuestas HTTP
 
-### `models/`
-Definición de modelos Sequelize y relaciones entre tablas.
+### Middlewares
 
-### `seeders/`
-Datos iniciales o de prueba para poblar la base de datos.
+- Validación de params
+- Validación de existencia en DB
+- Validación de schemas (Joi)
 
----
+### Schemas
 
-## `src/middlewares/`
-Middlewares personalizados para validaciones, autenticación y manejo de errores.
-
----
-
-## `src/routes/`
-Definición de rutas y endpoints de la aplicación.
+- `userSchema`
+- `postSchema`
+- `commentSchema`
+- `tagSchema`
+- `postImageSchema`
 
 ---
 
-## `src/schemas/`
-Esquemas de validación de datos utilizados en formularios o endpoints.
+## 🧾 Endpoints de la API
+
+### 👤 Users
+
+```
+GET    /users
+GET    /users/:id
+POST   /users
+PUT    /users/:id
+DELETE /users/:id
+```
+
+### 📝 Posts
+
+```
+GET    /posts
+GET    /posts/:id
+POST   /posts
+PUT    /posts/:id
+DELETE /posts/:id
+```
+
+### 💬 Comments
+
+```
+GET    /comments
+GET    /comments/:id
+POST   /comments
+PUT    /comments/:id
+DELETE /comments/:id
+```
+
+### 🖼️ Post Images
+
+```
+GET    /images
+GET    /images/:id
+POST   /images
+PUT    /images/:id
+DELETE /images/:id
+```
+
+### 🏷️ Tags
+
+```
+GET    /tags
+GET    /tags/:id
+POST   /tags
+PUT    /tags/:id
+DELETE /tags/:id
+```
 
 ---
 
-## `src/main.js`
-Archivo principal encargado de inicializar la aplicación.
+## 🔐 Validaciones implementadas
+
+- Validación de IDs en rutas
+- Validación con Joi (schemas)
+- Verificación de existencia en DB
+- Integridad referencial
+- Unique constraints en modelos
 
 ---
 
-# Objetivo de la estructura
+## 🧪 Testing del sistema
 
-La estructura del proyecto fue organizada de manera modular para:
+Se realizaron pruebas de:
 
-- Separar responsabilidades.
-- Facilitar el mantenimiento del código.
-- Mejorar la escalabilidad del proyecto.
-- Mantener una arquitectura más limpia y ordenada.
-- Facilitar el trabajo colaborativo en equipo.
+- CRUD de usuarios
+- CRUD de posts
+- CRUD de comments
+- CRUD de tags
+- asociación Post ↔ Images
+- asociación Post ↔ Tags
+- integridad de relaciones
+
+---
+
+## 🧠 Decisiones de diseño
+
+- Arquitectura en capas
+- Sequelize ORM
+- Relaciones N:M explícitas (PostTags)
+- Validación doble (middleware + schema)
+- Diseño modular y escalable
+
+---
+# 🔐 Configuración de variables de entorno (.env)
+
+El proyecto utiliza la librería `dotenv` para gestionar variables de entorno, permitiendo configurar parámetros sensibles o variables de ejecución sin modificar el código fuente.
+
+Esto mejora la portabilidad del sistema entre distintos entornos (desarrollo, testing y producción).
+
+---
+
+## 📁 Archivo `.env`
+
+En la raíz del proyecto se debe crear un archivo `.env` con la siguiente estructura:
+
+```env
+PORT=3000
+NODE_ENV=development
+DB_STORAGE=./src/db/database.sqlite
+```
+
+---
+
+## ⚙️ Variables utilizadas
+
+| Variable | Descripción |
+|----------|-------------|
+| `PORT` | Puerto donde se ejecuta el servidor |
+| `NODE_ENV` | Entorno de ejecución (`development` / `production` / `test`) |
+| `DB_STORAGE` | Ruta del archivo SQLite |
+
+---
+
+## 🚫 Seguridad
+
+El archivo `.env`:
+
+- ❌ No debe subirse a GitHub
+- ❌ Debe agregarse al `.gitignore`
+
+```
+.env
+node_modules
+```
+
+---
+
+## 🚀 Uso en el proyecto
+
+El archivo `.env` se carga mediante:
+
+```js
+require("dotenv").config();
+```
+
+Y las variables se acceden con:
+
+```js
+process.env.PORT
+process.env.NODE_ENV
+process.env.DB_STORAGE
+```
+
+---
+
+## 📌 Beneficio
+
+Este enfoque permite:
+
+- Cambiar configuración sin modificar código
+- Adaptar el proyecto a otras máquinas fácilmente
+- Mantener buenas prácticas de seguridad
+- Preparar el proyecto para despliegue
+
+---
+
+## 📌 Estado del proyecto
+
+- ✔ CRUD completo
+- ✔ Relaciones implementadas
+- ✔ Validaciones funcionando
+- ✔ Base de datos operativa
+- ✔ Arquitectura escalable
+- ✔ Proyecto listo para entrega final

@@ -1,30 +1,38 @@
-const sequelize = require("../database")
-const { DataTypes } = require("sequelize")
-const PostModel = require("./post")
-const CommentModel = require("./comment")
-const TagModel = require("./tag")
-const UserModel = require("./user")
-const PostImageModel = require("./postImage")
+const sequelize = require("../database");
+const { DataTypes } = require("sequelize");
+require("dotenv").config();
 
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/config.js")[env];
 
+// modelos
+const User = require("./user")(sequelize, DataTypes);
+const Post = require("./post")(sequelize, DataTypes);
+const Comment = require("./comment")(sequelize, DataTypes);
+const Tag = require("./tag")(sequelize, DataTypes);
+const PostImage = require("./postImage")(sequelize, DataTypes);
+const PostTags = require("./posttags")(sequelize, DataTypes);
 
-const PostImage = PostImageModel(sequelize, DataTypes)
-const User = UserModel(sequelize, DataTypes)
-const Post = PostModel(sequelize, DataTypes)
-const Comment = CommentModel(sequelize, DataTypes)
-const Tag = TagModel(sequelize, DataTypes)
-
-Post.associate({ Comment, Tag, User, PostImage });
-Comment.associate({ Post, User });
-Tag.associate({ Post });
-User.associate({ Post, Comment });
-PostImage.associate({ Post });
-
-module.exports = {
+// objeto con todos los modelos
+const models = {
+    User,
     Post,
     Comment,
     Tag,
-    User,
     PostImage,
+    PostTags
+};
+
+// asociaciones entre modelos
+User.associate(models);
+Post.associate(models);
+Comment.associate(models);
+Tag.associate(models);
+PostImage.associate(models);
+
+// exportar modelos y conexión a la base de datos
+module.exports = {
+    // exportar cada modelo individualmente
+    ...models,
     sequelize
-}
+};

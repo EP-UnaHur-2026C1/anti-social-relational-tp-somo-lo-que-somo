@@ -5,7 +5,7 @@ const { DataTypes } = require("sequelize")
 const TagModel = require("../db/models/tag")
 
 const Tag = TagModel(sequelize, DataTypes)
-console.log(require("../db/models"))
+//console.log(require("../db/models"))
 
 const getTags = async (req, res) => {
 

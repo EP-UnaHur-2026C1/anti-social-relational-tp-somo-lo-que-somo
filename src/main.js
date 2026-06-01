@@ -1,8 +1,10 @@
 // Importo express, creo una app y me traigo la conexión a la base de datos
+//importo dotenv para manejar variables de entorno
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const sequelize = require("./db/database");
-
+const PORT = process.env.PORT || 3000;
 // IMPORTAR Ini
 const { seedDatabase } = require("./ini.js");
 
@@ -34,8 +36,8 @@ const startServer = async () => {
     try {
         await sequelize.sync({ force: true });
         await seedDatabase();
-        app.listen(3000, () => {
-            console.log("Servidor corriendo en puerto 3000");
+        app.listen(PORT, () => {
+            console.log(`Servidor corriendo en puerto ${PORT}`);
         });
     } catch (error) {
         console.error("Error al iniciar server:", error);
