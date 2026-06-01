@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Tag.belongsToMany(models.Post, {
         through: "PostTags",
         foreignKey: "tagId",
-        as: "posts",
-        timestamps: false,
-
+        as: "posts"
       })
 
     }
