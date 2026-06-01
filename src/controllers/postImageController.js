@@ -5,7 +5,12 @@ const { PostImage, Post } = require("../db/models");
 const getAllPostImages = async (req, res) => {
     try {
         const images = await PostImage.findAll({
-            include: Post
+            include: [
+                {
+                    model: Post,
+                    as: "post"
+                }
+            ]
         });
 
         res.status(200).json(images);
@@ -17,11 +22,27 @@ const getAllPostImages = async (req, res) => {
     }
 };
 
+
+
 const getPostImageById = async (req, res) => {
     try {
-        const image = req.record;
+        const { id } = req.params;
+
+        const image = await PostImage.findByPk(id, {
+            include: {
+                model: Post,
+                as: "post"
+            }
+        });
+
+        if (!image) {
+            return res.status(404).json({
+                message: "Imagen no encontrada"
+            });
+        }
 
         res.status(200).json(image);
+
     } catch (error) {
         res.status(500).json({
             message: "Error al obtener imagen",
@@ -29,6 +50,8 @@ const getPostImageById = async (req, res) => {
         });
     }
 };
+
+
 const createPostImage = async (req, res) => {
     try {
         const { imageUrl, postId } = req.body;

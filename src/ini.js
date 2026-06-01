@@ -7,13 +7,11 @@ const seedDatabase = async () => {
 
         // USERS
         const user1 = await User.create({
-            nickname: "manu",
-            email: "manu@test.com",
+            nickname: "manu"
         });
 
         const user2 = await User.create({
-            nickname: "juan",
-            email: "juan@test.com",
+            nickname: "juan"
         });
 
         // TAGS

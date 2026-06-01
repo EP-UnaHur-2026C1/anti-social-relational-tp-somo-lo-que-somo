@@ -3,26 +3,32 @@ const express = require("express");
 const router = express.Router();
 
 //Me traigo el controlador para usar sus metodos en las rutas
-const tagController = require("../controllers/tagController");
+const {
+    getTags,
+    getTagById,
+    createTag,
+    updateTag,
+    deleteTag
+} = require("../controllers/tagController");
 
 // Importo el middleware de validación de esquemas y el esquema de usuario para validar los datos de entrada
 const { schemaValidator } = require('../middlewares/validateSchema')
 const { tagSchema } = require("../schemas/tagSchema")
 
 // Defino las rutas y les asigno el metodo correspondiente del controlador con validaciones donde corresponda
-router.get("/", tagController.getTags);
+router.get("/", getTags);
 
-router.get("/:id", tagController.getTagById);
+router.get("/:id", getTagById);
 
-router.post("/", schemaValidator(tagSchema), tagController.createTag);
+router.post("/", schemaValidator(tagSchema), createTag);
 
 router.put("/:id",
     schemaValidator(tagSchema),
-    tagController.updateTag
+    updateTag
 );
 
 router.delete("/:id",
-    tagController.deleteTag
+    deleteTag
 );
 
 // Exporto el router para usarlo en main.js

@@ -1,0 +1,13 @@
+[
+  {
+    "_comment": "Ejemplos para probar la ruta POST /comments",
+    "text": "Buen post!",
+    "postId": 1,
+    "userId": 2
+  },
+  {
+    "text": "Muy interesante",
+    "postId": 1,
+    "userId": 3
+  }
+]

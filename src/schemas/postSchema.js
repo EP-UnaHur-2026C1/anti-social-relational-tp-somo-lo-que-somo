@@ -1,4 +1,4 @@
-const Joi = require('joi')
+/*const Joi = require('joi')
 
 const postSchema = Joi.object({
 
@@ -13,3 +13,14 @@ const postSchema = Joi.object({
 )
 
 module.exports = {postSchema};
+
+*/
+const Joi = require("joi");
+
+const postSchema = Joi.object({
+    description: Joi.string().required(),
+    userId: Joi.number().integer().required(),
+    tagIds: Joi.array().items(Joi.number().integer()).optional()
+});
+
+module.exports = postSchema;
