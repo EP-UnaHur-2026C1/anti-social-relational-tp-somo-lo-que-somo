@@ -22,7 +22,6 @@ export const getAllPostImages = async (req, res) => {
 export const getPostImageById = async (req, res) => {
     try {
         const { id } = req.params;
-
         const image = await PostImage.findByPk(id, {
             include: Post,
         });
@@ -45,9 +44,7 @@ export const getPostImageById = async (req, res) => {
 export const createPostImage = async (req, res) => {
     try {
         const { imageUrl, postId } = req.body;
-
         const post = await Post.findByPk(postId);
-
         if (!post) {
             return res.status(404).json({
                 message: "El post asociado no existe",
@@ -75,7 +72,6 @@ export const updatePostImage = async (req, res) => {
     try {
         const { id } = req.params;
         const { imageUrl } = req.body;
-
         const image = await PostImage.findByPk(id);
 
         if (!image) {
@@ -83,7 +79,6 @@ export const updatePostImage = async (req, res) => {
                 message: "Imagen no encontrada",
             });
         }
-
         await image.update({
             imageUrl,
         });
@@ -103,9 +98,7 @@ export const updatePostImage = async (req, res) => {
 export const deletePostImage = async (req, res) => {
     try {
         const { id } = req.params;
-
         const image = await PostImage.findByPk(id);
-
         if (!image) {
             return res.status(404).json({
                 message: "Imagen no encontrada",
