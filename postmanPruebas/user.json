@@ -1,0 +1,12 @@
+[
+    {
+        "_comment": "Ejemplos para probar la ruta POST /users",
+        "nickname": "juanperez"
+    },
+    {
+        "nickname": "maria_dev"
+    },
+    {
+        "nickname": "carlos123"
+    }
+]

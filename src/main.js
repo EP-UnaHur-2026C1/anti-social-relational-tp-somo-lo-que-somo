@@ -25,17 +25,12 @@ app.use("/tags", tagRoutes);
 app.use("/users", userRoutes);
 app.use("/post-images", postImageRoutes);
 
-// Server
-/*app.listen(3000, () => {
-    //sequelize.sync({ force: true });
-    console.log("Servidor corriendo en puerto 3000");
-    await seedDatabase();
-});*/
 
 const startServer = async () => {
     try {
         await sequelize.sync({ force: true });
-        await seedDatabase();
+        //descomentando la linea de abajo para resetear la base de datos e inicializarla con datos de prueba cada vez que se inicia el server
+        //await seedDatabase();
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en puerto ${PORT}`);
         });

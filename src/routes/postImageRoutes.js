@@ -23,7 +23,7 @@ const { postImageSchema } = require("../schemas/postImageSchema");
 // Defino las rutas y les asigno el metodo correspondiente del controlador con validaciones donde corresponda
 router.get("/", getAllPostImages);
 router.get("/:id", validaPathParameterMiddleware, validaExisteMiddleware(PostImage), getPostImageById);
-router.post("/", schemaValidator(postImageSchema), validaExisteMiddleware(Post), createPostImage);
+router.post("/", schemaValidator(postImageSchema), createPostImage);
 router.put("/:id", validaPathParameterMiddleware, schemaValidator(postImageSchema), validaExisteMiddleware(PostImage), updatePostImage);
 router.delete("/:id", validaPathParameterMiddleware, validaExisteMiddleware(PostImage), deletePostImage);
 

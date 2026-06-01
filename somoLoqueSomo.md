@@ -228,7 +228,6 @@ DELETE /posts/:id
 
 ```
 GET    /comments
-GET    /comments/:id
 POST   /comments
 PUT    /comments/:id
 DELETE /comments/:id
@@ -250,8 +249,7 @@ DELETE /images/:id
 GET    /tags
 GET    /tags/:id
 POST   /tags
-PUT    /tags/:id
-DELETE /tags/:id
+
 ```
 
 ---
@@ -360,6 +358,93 @@ Este enfoque permite:
 - Mantener buenas prácticas de seguridad
 - Preparar el proyecto para despliegue
 
+---
+
+## Documentación de la API (Swagger)
+
+El proyecto incluye documentación de la API utilizando Swagger en formato YAML.
+
+El archivo `swagger.yml` define:
+
+- Endpoints de la API
+- Modelos de datos
+- Parámetros de entrada
+- Respuestas posibles
+- Estructura general del backend
+
+Esto permite probar y visualizar la API de forma interactiva.
+
+### Archivo de documentación
+
+📄 `swagger.yml`
+Ubicado en la raíz del proyecto o en la carpeta `/docs`.
+
+---
+
+# 📮 Colección de pruebas (Postman)
+
+Para facilitar el testeo de la API se creó una carpeta llamada:
+
+```
+/postman
+```
+
+Dentro de esta carpeta se incluyen archivos en formato `.json` correspondientes a cada entidad principal del sistema, utilizados para probar los distintos endpoints de la API.
+
+---
+
+## 📁 Estructura de la carpeta Postman
+
+```
+postman/
+│
+├── users.postman.json
+├── posts.postman.json
+├── comments.postman.json
+├── tags.postman.json
+└── postImages.postman.json
+```
+
+---
+
+## 🧪 Propósito de los archivos Postman
+
+Cada archivo contiene ejemplos de requests para los endpoints CRUD de cada entidad:
+
+- `GET` — listar recursos
+- `GET by ID` — obtener un recurso específico
+- `POST` — crear recursos
+- `PUT` — actualizar recursos
+- `DELETE` — eliminar recursos
+
+Estos archivos permiten realizar pruebas rápidas de la API sin necesidad de armar manualmente las requests en Postman.
+
+---
+
+## 🧬 Inicialización de datos 
+
+El proyecto cuenta con un archivo de inicialización ubicado en:
+
+```
+/src/ini.js
+```
+
+Este script se encarga de:
+
+- Conectar la aplicación a la base de datos
+- Sincronizar los modelos Sequelize
+- Insertar datos iniciales de prueba (seed data)
+- Validar el correcto funcionamiento de relaciones entre entidades
+
+---
+
+## 🚀 Objetivo del script de inicialización
+
+El archivo `ini.js` permite levantar el sistema con datos precargados para:
+
+- Facilitar pruebas del sistema completo
+- Validar relaciones entre tablas (1:N y N:M)
+- Acelerar el testing del backend sin carga manual de datos
 ---
 
 ## 📌 Estado del proyecto

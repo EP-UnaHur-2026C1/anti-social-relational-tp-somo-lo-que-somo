@@ -41,6 +41,49 @@ const getPosts = async (req, res) => {
     res.json(posts);
 };
 
+// Función para obtener un post por ID con sus asociaciones
+const getPostById = async (req, res) => {
+    const { id } = req.params;
+
+    const fechaLimite = new Date();
+    fechaLimite.setMonth(fechaLimite.getMonth() - mesesVisibles);
+
+    const post = await Post.findByPk(id, {
+        include: [
+            {
+                association: "user"
+            },
+            {
+                association: "comments",
+                where: {
+                    visible: true,
+                    commentDate: {
+                        [Op.gte]: fechaLimite
+                    }
+                },
+                required: false
+            },
+            {
+                association: "tags"
+            },
+            {
+                association: "images"
+            }
+        ]
+    });
+
+    if (!post) {
+        return res.status(404).json({
+            message: "Post no encontrado"
+        });
+    }
+
+    res.json(post);
+};
+
+
+
+
 // Función para crear un nuevo post
 const createPost = async (req, res) => {
     // Extraigo los datos necesarios del body de la solicitud
@@ -99,4 +142,4 @@ const deletePost = async (req, res) => {
     });
 };
 
-module.exports = { getPosts, createPost, updatePost, deletePost };
+module.exports = { getPosts, getPostById, createPost, updatePost, deletePost };

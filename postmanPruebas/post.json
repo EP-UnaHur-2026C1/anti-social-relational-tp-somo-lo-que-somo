@@ -1,0 +1,15 @@
+[
+    {
+        "_comment": "Ejemplos para probar la ruta POST /posts",
+        "description": "Mi primer post en la red social",
+        "userId": 1
+    },
+    {
+        "description": "Aprendiendo Sequelize con relaciones",
+        "userId": 2
+    },
+    {
+        "description": "Post de prueba con tags e imágenes",
+        "userId": 1
+    }
+]

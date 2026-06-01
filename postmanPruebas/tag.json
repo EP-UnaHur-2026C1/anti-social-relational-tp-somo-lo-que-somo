@@ -1,0 +1,12 @@
+[
+    {
+        "_comment": "Ejemplos para probar la ruta POST /tags",
+        "name": "PHP"
+    },
+    {
+        "name": "javascript"
+    },
+    {
+        "name": "nodejs"
+    }
+]

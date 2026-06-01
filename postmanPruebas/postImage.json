@@ -1,0 +1,15 @@
+[
+    {
+        "_comment": "Ejemplos para probar la ruta POST /post-images",
+        "imageUrl": "https://example.com/images/post2.jpg",
+        "postId": 1
+    },
+    {
+        "imageUrl": "https://example.com/images/post3.jpg",
+        "postId": 2
+    },
+    {
+        "imageUrl": "https://example.com/images/post4.jpg",
+        "postId": 3
+    }
+]

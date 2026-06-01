@@ -14,6 +14,28 @@ const getTags = async (req, res) => {
     res.json(tags)
 }
 
+const getTagById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const tag = await Tag.findByPk(id);
+
+        if (!tag) {
+            return res.status(404).json({
+                message: "Tag no encontrado"
+            });
+        }
+
+        res.json(tag);
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Error al obtener tag",
+            error: error.message
+        });
+    }
+};
+
+
 const createTag = async (req, res) => {
 
     const { name } = req.body
@@ -27,5 +49,6 @@ const createTag = async (req, res) => {
 
 module.exports = {
     getTags,
+    getTagById,
     createTag
 }
