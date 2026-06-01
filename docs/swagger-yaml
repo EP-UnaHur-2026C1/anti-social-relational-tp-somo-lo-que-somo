@@ -1,0 +1,368 @@
+openapi: 3.0.0
+info:
+  title: UnaHur Anti-Social Net API
+  version: 1.0.0
+  description: API backend para red social Anti-Social Net
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Users
+  - name: Posts
+  - name: Comments
+  - name: Tags
+  - name: PostImages
+
+paths:
+  /users:
+    get:
+      tags: [Users]
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      tags: [Users]
+      summary: Crear usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: Usuario creado
+
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: Obtener usuario por id
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Usuario encontrado
+        "404":
+          description: Usuario no encontrado
+    put:
+      tags: [Users]
+      summary: Actualizar usuario
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: Usuario actualizado
+    delete:
+      tags: [Users]
+      summary: Eliminar usuario
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Usuario eliminado
+
+  /posts:
+    get:
+      tags: [Posts]
+      summary: Obtener todos los posts con usuario, comentarios visibles, tags e imágenes
+      responses:
+        "200":
+          description: Lista de posts
+    post:
+      tags: [Posts]
+      summary: Crear post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+      responses:
+        "200":
+          description: Post creado
+
+  /posts/{id}:
+    get:
+      tags: [Posts]
+      summary: Obtener post por id
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Post encontrado
+        "404":
+          description: Post no encontrado
+    put:
+      tags: [Posts]
+      summary: Actualizar post
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Post actualizado
+    delete:
+      tags: [Posts]
+      summary: Eliminar post
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Post eliminado
+
+  /comments:
+    get:
+      tags: [Comments]
+      summary: Obtener todos los comentarios
+      responses:
+        "200":
+          description: Lista de comentarios
+    post:
+      tags: [Comments]
+      summary: Crear comentario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentInput"
+      responses:
+        "200":
+          description: Comentario creado
+
+  /comments/{id}:
+    get:
+      tags: [Comments]
+      summary: Obtener comentario por id
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Comentario encontrado
+        "404":
+          description: Comentario no encontrado
+    put:
+      tags: [Comments]
+      summary: Actualizar comentario
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        "200":
+          description: Comentario actualizado
+    delete:
+      tags: [Comments]
+      summary: Eliminar comentario
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Comentario eliminado
+
+  /tags:
+    get:
+      tags: [Tags]
+      summary: Obtener todos los tags
+      responses:
+        "200":
+          description: Lista de tags
+    post:
+      tags: [Tags]
+      summary: Crear tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagInput"
+      responses:
+        "200":
+          description: Tag creado
+
+  /tags/{id}:
+    get:
+      tags: [Tags]
+      summary: Obtener tag por id
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Tag encontrado
+    put:
+      tags: [Tags]
+      summary: Actualizar tag
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagInput"
+      responses:
+        "200":
+          description: Tag actualizado
+    delete:
+      tags: [Tags]
+      summary: Eliminar tag
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Tag eliminado
+
+  /post-images:
+    get:
+      tags: [PostImages]
+      summary: Obtener imágenes de posts
+      responses:
+        "200":
+          description: Lista de imágenes
+    post:
+      tags: [PostImages]
+      summary: Agregar imagen a un post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostImageInput"
+      responses:
+        "200":
+          description: Imagen creada
+
+  /post-images/{id}:
+    get:
+      tags: [PostImages]
+      summary: Obtener imagen por id
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Imagen encontrada
+    put:
+      tags: [PostImages]
+      summary: Actualizar imagen
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostImageInput"
+      responses:
+        "200":
+          description: Imagen actualizada
+    delete:
+      tags: [PostImages]
+      summary: Eliminar imagen
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Imagen eliminada
+
+components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+    UserInput:
+      type: object
+      required:
+        - nickname
+        - email
+      properties:
+        nickname:
+          type: string
+          example: caro
+        email:
+          type: string
+          example: caro@mail.com
+
+    PostInput:
+      type: object
+      required:
+        - description
+        - userId
+      properties:
+        description:
+          type: string
+          example: Mi primer post
+        userId:
+          type: integer
+          example: 1
+        tagIds:
+          type: array
+          items:
+            type: integer
+          example: [1, 2]
+
+    CommentInput:
+      type: object
+      required:
+        - text
+        - postId
+        - userId
+      properties:
+        text:
+          type: string
+          example: Buen post!
+        postId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 2
+
+    TagInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: tech
+
+    PostImageInput:
+      type: object
+      required:
+        - imageUrl
+        - postId
+      properties:
+        imageUrl:
+          type: string
+          example: https://img.com/1.jpg
+        postId:
+          type: integer
+          example: 1
