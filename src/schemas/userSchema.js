@@ -3,10 +3,7 @@ const Joi = require('joi');
 
 // Defino el esquema de validación para los usuarios
 const userSchema = Joi.object({
-    /*
-    Valido que el nickname sea una cadena de texto entre 3 y 20 caracteres y que sea obligatorio 
-    con mensajes personalizados para cada caso de error
-    */
+
     nickname: Joi.string()
         .min(3)
         .max(20)
@@ -17,6 +14,16 @@ const userSchema = Joi.object({
             "string.max": "El nickname puede tener máximo 20 caracteres",
             "any.required": "El nickname es obligatorio"
         }),
+
+    email: Joi.string()
+        .email()
+        .required()
+        .messages({
+            "string.empty": "El email no puede estar vacío",
+            "string.email": "El email no tiene un formato válido",
+            "any.required": "El email es obligatorio"
+        })
+
 });
 
 // Exporto el esquema para usarlo en los controladores

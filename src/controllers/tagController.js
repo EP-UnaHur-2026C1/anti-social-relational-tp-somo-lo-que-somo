@@ -25,7 +25,64 @@ const createTag = async (req, res) => {
     res.json(newTag)
 }
 
+const getTagById = async (req, res) => {
+
+    const { id } = req.params
+
+    const tag = await Tag.findByPk(id)
+
+    if (!tag) {
+        return res.status(404).json({
+            message: "Tag no encontrado"
+        })
+    }
+
+    res.json(tag)
+}
+
+const updateTag = async (req, res) => {
+
+    const { id } = req.params
+    const { name } = req.body
+
+    const tag = await Tag.findByPk(id)
+
+    if (!tag) {
+        return res.status(404).json({
+            message: "Tag no encontrado"
+        })
+    }
+
+    tag.name = name
+
+    await tag.save()
+
+    res.json(tag)
+}
+
+const deleteTag = async (req, res) => {
+
+    const { id } = req.params
+
+    const tag = await Tag.findByPk(id)
+
+    if (!tag) {
+        return res.status(404).json({
+            message: "Tag no encontrado"
+        })
+    }
+
+    await tag.destroy()
+
+    res.json({
+        message: "Tag eliminado"
+    })
+}
+
 module.exports = {
     getTags,
-    createTag
+    createTag,
+    getTagById,
+    updateTag,
+    deleteTag
 }

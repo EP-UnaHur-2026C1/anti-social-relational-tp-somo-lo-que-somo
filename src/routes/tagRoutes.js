@@ -11,7 +11,19 @@ const { tagSchema } = require("../schemas/tagSchema")
 
 // Defino las rutas y les asigno el metodo correspondiente del controlador con validaciones donde corresponda
 router.get("/", tagController.getTags);
+
+router.get("/:id", tagController.getTagById);
+
 router.post("/", schemaValidator(tagSchema), tagController.createTag);
+
+router.put("/:id",
+    schemaValidator(tagSchema),
+    tagController.updateTag
+);
+
+router.delete("/:id",
+    tagController.deleteTag
+);
 
 // Exporto el router para usarlo en main.js
 module.exports = router;
