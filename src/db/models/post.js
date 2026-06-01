@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "PostTags",
         foreignKey: "postId",
         as: "tags"
-    })
+      })
 
     }
 
@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Post',
+    timestamps: false,
+
   });
 
   return Post;
