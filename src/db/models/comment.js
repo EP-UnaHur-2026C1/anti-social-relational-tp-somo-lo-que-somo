@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "post"
       })
 
+      Comment.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user'
+      });
+
     }
 
   }
@@ -32,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

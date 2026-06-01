@@ -21,6 +21,17 @@ module.exports = (sequelize, DataTypes) => {
         as: "tags"
       })
 
+
+      Post.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user'
+      });
+
+      Post.hasMany(models.PostImage, {
+        foreignKey: "postId",
+        as: "images"
+      });
+
     }
 
   }
@@ -28,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     description: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
 
