@@ -3,6 +3,9 @@ const express = require("express");
 const app = express();
 const sequelize = require("./db/database");
 
+// IMPORTAR Ini
+const { seedDatabase } = require("./ini.js");
+
 // Middleware para parsear JSON
 app.use(express.json());
 
@@ -21,7 +24,22 @@ app.use("/users", userRoutes);
 app.use("/post-images", postImageRoutes);
 
 // Server
-app.listen(3000, () => {
-    sequelize.sync({ force: true });
+/*app.listen(3000, () => {
+    //sequelize.sync({ force: true });
     console.log("Servidor corriendo en puerto 3000");
-});
+    await seedDatabase();
+});*/
+
+const startServer = async () => {
+    try {
+        await sequelize.sync({ force: true });
+        await seedDatabase();
+        app.listen(3000, () => {
+            console.log("Servidor corriendo en puerto 3000");
+        });
+    } catch (error) {
+        console.error("Error al iniciar server:", error);
+    }
+};
+
+startServer();

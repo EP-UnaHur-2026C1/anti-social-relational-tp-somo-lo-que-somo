@@ -1,11 +1,11 @@
 // Importo los modelos necesarios para las operaciones de postImage
-import { PostImage, Post } from "../models/index.js";
+const { PostImage, Post } = require("../db/models");
 
 //ARME ESTRUCTURA PERO AUN NO PROBRE ENDPOINTS, FALTA PROBAR Y VER SI FUNCIONA BIEN
-export const getAllPostImages = async (req, res) => {
+const getAllPostImages = async (req, res) => {
     try {
         const images = await PostImage.findAll({
-            include: Post,
+            include: Post
         });
 
         res.status(200).json(images);
@@ -17,7 +17,7 @@ export const getAllPostImages = async (req, res) => {
     }
 };
 
-export const getPostImageById = async (req, res) => {
+const getPostImageById = async (req, res) => {
     try {
         const image = req.record;
 
@@ -29,7 +29,7 @@ export const getPostImageById = async (req, res) => {
         });
     }
 };
-export const createPostImage = async (req, res) => {
+const createPostImage = async (req, res) => {
     try {
         const { imageUrl, postId } = req.body;
 
@@ -50,7 +50,7 @@ export const createPostImage = async (req, res) => {
     }
 };
 
-export const updatePostImage = async (req, res) => {
+const updatePostImage = async (req, res) => {
     try {
         const image = req.record;
         const { imageUrl } = req.body;
@@ -69,7 +69,7 @@ export const updatePostImage = async (req, res) => {
     }
 };
 
-export const deletePostImage = async (req, res) => {
+const deletePostImage = async (req, res) => {
     try {
         const image = req.record;
 
@@ -85,3 +85,12 @@ export const deletePostImage = async (req, res) => {
         });
     }
 };
+
+
+module.exports = {
+    getAllPostImages,
+    getPostImageById,
+    createPostImage,
+    updatePostImage,
+    deletePostImage
+}

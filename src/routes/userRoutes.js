@@ -14,7 +14,7 @@ const {
 
 // Importo el middleware de validación de esquemas y el esquema de usuario para validar los datos de entrada
 const { schemaValidator } = require("../middlewares/validateSchema");
-const { validaPathParameterMiddleware, validaExisteMiddleware } = require("../middlewares/validaPathParameterMiddleware");
+const { validaPathParameterMiddleware, validaExisteMiddleware } = require("../middlewares/existe.middleware");
 const { User } = require("../db/models");
 const { userSchema } = require("../schemas/userSchema");
 

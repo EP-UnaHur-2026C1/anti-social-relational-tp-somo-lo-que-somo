@@ -1,10 +1,8 @@
 // Importo el modelo de User para usarlo en los controladores
-import { User } from "../models/index.js";
+const { User } = require("../db/models");
 
 //ARME ESTRUCTURA PERO AUN NO PROBRE ENDPOINTS, FALTA PROBAR Y VER SI FUNCIONA BIEN
-
-
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll();
         res.status(200).json(users);
@@ -16,7 +14,7 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
-export const getUserById = async (req, res) => {
+const getUserById = async (req, res) => {
     try {
         const user = req.record;
 
@@ -29,7 +27,7 @@ export const getUserById = async (req, res) => {
     }
 };
 
-export const createUser = async (req, res) => {
+const createUser = async (req, res) => {
     try {
         const { nickname, email } = req.body;
 
@@ -60,7 +58,7 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
     try {
         const { nickname, email } = req.body;
         const user = req.record;
@@ -82,7 +80,7 @@ export const updateUser = async (req, res) => {
     }
 };
 
-export const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
     try {
         const user = req.record;
         await user.destroy();
@@ -97,3 +95,11 @@ export const deleteUser = async (req, res) => {
         });
     }
 };
+
+module.exports = {
+    getAllUsers,
+    getUserById,
+    createUser,
+    updateUser,
+    deleteUser
+}
