@@ -1,3 +1,8 @@
+## Diagrama de la base de datos
+
+![DB Diagram](./assets/der.png)
+
+
 # Configuración inicial del proyecto
 
 ## Instalación de dependencias
